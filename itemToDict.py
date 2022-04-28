@@ -1,4 +1,4 @@
-from variables import LINK
+from config import LINK
 from datetime import datetime
 import re
 import os

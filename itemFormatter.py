@@ -1,7 +1,6 @@
 import re
-from turtle import right
 from template import ITEM_TEMPLATE
-from variables import *
+from config import *
 import re
 
 

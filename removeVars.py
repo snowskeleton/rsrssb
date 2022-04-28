@@ -1,5 +1,5 @@
 import re
-from variables import *
+from config import *
 
 
 def removeVars(template):
