@@ -19,11 +19,11 @@ class MyTestCases(unittest.TestCase):
         self.assertEqual(
             test_obj['title'], 'this is a test string pretending to be a file')
         self.assertEqual(
-            test_obj['link'], 'snowskeleton.net/rss/this is a test string pretending to be a file')
+            test_obj['link'], 'snowskeleton.net/rss/this%260is%260a%260test%260string%260pretending%260to%260be%260a%260file')
         self.assertEqual(
             test_obj['description'], 'this is a test string pretending to be a file')
         self.assertEqual(
-            test_obj['enclosureURL'], 'snowskeleton.net/rss/this is a test string pretending to be a file')
+            test_obj['enclosureURL'], 'snowskeleton.net/rss/this%260is%260a%260test%260string%260pretending%260to%260be%260a%260file')
 
         #this regex is supposed to matche a date formatted like so:
         # 'yyyy-MM-dd hh:mm:ss.ssssss', '2022-04-28 14:26:03.102815'
