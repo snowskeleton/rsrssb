@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
-import sys
+import sys, os
 from itemToDict import itemToDict
 from hydrateItem import hydrateItem
 from config import *
 from template import *
 from removeVars import removeVars
+from guesswork import approval, guessFiles
+
+
+def main():
+	match input("Enter something: "):
+		case "d" | "default" | _:
+			var = os.listdir()
+			print('\n'.join(guessFiles()))
+			if approval('Are these the files you want to use? '):
+				horse(var)
 
 
 def audioFileCheck(item):
@@ -12,12 +22,12 @@ def audioFileCheck(item):
 		return False
 	return True
 
-def main():
+def horse(*args):
 	if len(sys.argv) < 2:
 		print("Please supply audio files as arguments")
 		raise SystemExit
 
-	for arg in sys.argv:
+	for arg in [*args]:
 		if audioFileCheck(arg) != False: # i.e., if the argument is a non-audio file
 			ARTWORK = arg
 			# sys.argv.pop(arg)
