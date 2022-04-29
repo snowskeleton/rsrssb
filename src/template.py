@@ -4,6 +4,11 @@ HEADER = """<?xml version="1.0" encoding="UTF-8"?>
 <channel>
 <title>";TITLE"</title>
 <link>;LINK</link>
+<image>
+	<url>;LINK/rss/;TITLE/cover.jpg<url>
+	<link>;LINK</link>
+</image>
+<itunes:image href=";LINK/rss/;TITLE/cover.jpg"/>
 <description>";DESCRIPTION"</description>
 <lastBuildDate>";LASTBUILDDATE"</lastBuildDate>
 <pubDate>";LASTPUBDATE"</pubDate>

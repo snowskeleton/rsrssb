@@ -1,6 +1,10 @@
 # this will be the title of your podcast feed.
 TITLE = ''
 
+# a link to a png or jpg file containing the artwork
+# you want displayed as the cover for this feed
+ARTWORK = ''
+
 # this will be the description for your podcast feed
 # (NOT for individual episodes)
 DESCRIPTION = ''

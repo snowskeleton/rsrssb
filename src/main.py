@@ -11,6 +11,10 @@ def main():
 		print("Please supply audio files as arguments")
 		raise SystemExit
 
+	for arg in sys.argv:
+		if sys.argv.__contains__(r'.*\.jpg|.*\.png'):
+			ARTWORK = arg
+			sys.argv.pop(arg)
 
 	with open('feed.xml', 'w') as output:
 		#add header to feed.xml. only need to do this once per file
