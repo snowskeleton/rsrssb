@@ -5,9 +5,10 @@ LIB="/usr/lib/rsrssb"
 #sudo mkdir ${LIB}
 
 #uncomment to remove previous installation
-#sudo rm -rf ${LIB} ${DEST}
+# sudo rm -rf ${LIB}
+# sudo rm -rf ${DEST}
 
 #comment out to not install (acts as a complete uninstall if paired with the above)
-sudo cp -r ../rsrssb ${LIB}
-sudo ln -s ${LIB}/main.py ${DEST}
+sudo cp -r ../../rsrssb ${LIB}
+sudo ln -s ${LIB}/src/main.py ${DEST}
 sudo chmod 755 ${DEST}
