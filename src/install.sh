@@ -1,4 +1,3 @@
-
 DEST="/usr/local/bin/rsrssb"
 LIB="/usr/lib/rsrssb"
 
