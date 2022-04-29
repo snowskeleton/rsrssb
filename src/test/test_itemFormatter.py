@@ -20,11 +20,11 @@ class MyTestCases(unittest.TestCase):
         self.assertEqual(
             test_obj['title'], 'this is a test string pretending to be a file')
         self.assertEqual(
-            test_obj['link'], f'snowskeleton.net/rss/{TITLE}/this%260is%260a%260test%260string%260pretending%260to%260be%260a%260file')
+            test_obj['link'], f'snowskeleton.net/rss/{TITLE}/this is a test string pretending to be a file')
         self.assertEqual(
             test_obj['description'], 'this is a test string pretending to be a file')
         self.assertEqual(
-            test_obj['enclosureURL'], f'snowskeleton.net/rss/{TITLE}/this%260is%260a%260test%260string%260pretending%260to%260be%260a%260file')
+            test_obj['enclosureURL'], f'snowskeleton.net/rss/{TITLE}/this is a test string pretending to be a file')
 
         #this regex is supposed to matche a date formatted like so:
         # 'yyyy-MM-dd hh:mm:ss.ssssss', '2022-04-28 14:26:03.102815'
@@ -35,12 +35,6 @@ class MyTestCases(unittest.TestCase):
             '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' +
             '\.[0-9][0-9][0-9][0-9][0-9][0-9]'
         )
-
-    def test_noSpacesInLinks(self):
-        test_obj = itemToDict(self.test_file)
-
-        self.assertNotIn(' ', test_obj['link'])
-        self.assertNotIn(' ', test_obj['enclosureURL'])
 
 
 if __name__ == '__main__':
