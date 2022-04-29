@@ -1,5 +1,6 @@
 import re
 from config import *
+from template import HEADER
 
 
 def removeVars(template):
@@ -10,3 +11,6 @@ def removeVars(template):
   template = re.sub(r";LASTPUBDATE", f'{LASTPUBDATE}', template)
   template = re.sub(r";WEBMASTER", f'{WEBMASTER}', template)
   return template
+
+if __name__ == '__main__':
+  removeVars(HEADER)

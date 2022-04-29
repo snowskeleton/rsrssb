@@ -19,3 +19,6 @@ def itemToDict(ep) -> dict:
     #this path is followed by tests, since I don't know how to mock an os path
     item['enclosureBytes'] = '0'
   return item
+
+if __name__ == '__main__':
+  itemToDict()

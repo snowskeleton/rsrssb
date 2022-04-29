@@ -13,3 +13,6 @@ def hydrateItem(item):
     newItem = re.sub(';EP_LENGTH_IN_BYTES', item['enclosureBytes'], newItem)
     newItem = re.sub(';EP_PUBDATE', item['pubdate'], newItem)
     return newItem
+
+if __name__ == '__main__':
+    hydrateItem()
