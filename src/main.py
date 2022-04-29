@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-from config import *
 from template import *
 from guesswork import approval, guessFiles
 from feed import Feed, Item
 
 
 def main():
-	match input("Enter something: "):
+	match input("Enter 'd' for deafult options: "):
 		case "d" | "default" | _:
 			print('\n'.join(guessFiles()))
 			if approval('Are these the files you want to use? '):
