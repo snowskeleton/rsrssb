@@ -1,5 +1,5 @@
 import sys
-from itemToDict.itemToDict import itemToDict
+from itemToDict import itemToDict
 from hydrateItem import hydrateItem
 from config import *
 from template import *

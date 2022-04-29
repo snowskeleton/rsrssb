@@ -1,4 +1,4 @@
-from config import LINK
+from config import LINK, TITLE
 from datetime import datetime
 import re
 import os
@@ -8,9 +8,9 @@ def itemToDict(ep) -> dict:
   endingLess = re.sub(r'.mp3|m4b|mb3|mb4', '', ep)
   item = {
       'title': endingLess,
-      'link': f'{LINK}/rss/{endingLess}'.replace(" ", "%260"),
+      'link': f'{LINK}/rss/{TITLE}/{endingLess}'.replace(" ", "%260"),
       'description': endingLess,
-      'enclosureURL': f'{LINK}/rss/{ep}'.replace(" ", "%260"),
+      'enclosureURL': f'{LINK}/rss/{TITLE}/{ep}'.replace(" ", "%260"),
       'pubdate': f'{datetime.now()}',
   }
   try:
