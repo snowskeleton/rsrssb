@@ -10,6 +10,10 @@ def main():
 			print('\n'.join(guessFiles()))
 			if approval('Are these the files you want to use? '):
 				horse(guessFiles())
+			else:
+				ext = input("Type which extension you're using (e.g., mp3, m4b, aac): ")
+				horse(guessFiles(ext))
+
 
 
 def audioFileCheck(item):

@@ -26,7 +26,7 @@ class Feed():
 class Item():
   instances = []
   def __init__(self, fileName, parent) -> None:
-      self.title = re.sub(r'.mp3|m4b|mb3|mb4', '', fileName)
+      self.title = re.sub(r'.mp3|.m4b|.mb3|.mb4', '', fileName)
       self.ep_link = f'{parent.link}/rss/{fileName}'
       self.enclosureURL = f'{parent.link}/rss/{fileName}'
       self.description = fileName

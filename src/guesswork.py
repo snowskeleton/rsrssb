@@ -11,5 +11,5 @@ def approval(question) -> bool:
 # returns list of all mp3 files in current directory,
 # which is probably the files you're trying to make a
 # pdocast feed from.
-def guessFiles() -> list:
-  return [f for f in os.listdir() if f.__contains__('.mp3')]
+def guessFiles(extension = 'mp3') -> list:
+  return [f for f in os.listdir() if f.__contains__(extension)]
