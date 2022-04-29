@@ -1,5 +1,4 @@
 import os
-import sys
 
 
 # simple yes/no state determiner.

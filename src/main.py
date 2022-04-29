@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
-import sys, os
-from itemToDict import itemToDict
-from hydrateItem import hydrateItem
 from config import *
 from template import *
-from removeVars import removeVars
 from guesswork import approval, guessFiles
+from feed import Feed, Item
 
 
 def main():
 	match input("Enter something: "):
 		case "d" | "default" | _:
-			var = os.listdir()
 			print('\n'.join(guessFiles()))
 			if approval('Are these the files you want to use? '):
-				horse(var)
+				horse(guessFiles())
 
 
 def audioFileCheck(item):
@@ -22,40 +18,14 @@ def audioFileCheck(item):
 		return False
 	return True
 
-def horse(*args):
-	if len(sys.argv) < 2:
-		print("Please supply audio files as arguments")
-		raise SystemExit
 
-	for arg in [*args]:
-		if audioFileCheck(arg) != False: # i.e., if the argument is a non-audio file
-			ARTWORK = arg
-			# sys.argv.pop(arg)
-
+def horse(files):
+	feed = Feed()
 	with open('feed.xml', 'w') as output:
-		#add header to feed.xml. only need to do this once per file
-		bt = removeVars(HEADER)
-		output.write(bt)
+		for f in files:
+			Item(f, parent=feed)
+		output.write(str(feed.xml()))
 
-  	#remove script name from arguments, leaving just audio file names
-		sys.argv.pop(0)
-
-
-		# gotta make sure we only make listings for real audio files
-
-		#work through all the audio files, making a listing for each.
-		for i in sys.argv:
-			if audioFileCheck(i) == True:
-				#convert string into dict
-				som = itemToDict(i)
-
-				#exchange dict for loooooong string
-				som = hydrateItem(som)
-
-				#write long string to file
-				output.write(som)
-
-		output.write(FOOTER)
 
 if __name__ == '__main__':
 	main()
