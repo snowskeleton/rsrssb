@@ -3,12 +3,12 @@ HEADER = """<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
 <channel>
 <title>;TITLE</title>
-<link>;LINK</link>
+<link>https://;LINK/rss/;SQUISHTITLE</link>
 <image>
-	<url>;LINK/rss/;TITLE/cover.jpg</url>
-	<link>;LINK</link>
+	<url>https://;LINK/rss/;SQUISHTITLE/cover.jpg</url>
+	<link>https://;LINK</link>
 </image>
-<itunes:image href=";LINK/rss/;TITLE/cover.jpg"/>
+<itunes:image href="https://;LINK/rss/;SQUISHTITLE/cover.jpg"/>
 <itunes:block/>
 <description>;DESCRIPTION</description>
 <lastBuildDate>;LASTBUILDDATE</lastBuildDate>

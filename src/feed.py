@@ -4,16 +4,18 @@ from datetime import datetime
 
 from template import ITEM_TEMPLATE, FOOTER
 from templateEditor import header
+from input import Input
+
 
 class Feed():
   def __init__(self):
-    self.title = input("Title: ")
-    self.artwork = ''
+    self.title = Input.title()
+    self.linkTitle = re.sub(' ', '', self.title)
     self.description = self.title
-    self.link = input("Base URL (e.g., https://example.com): ")
-    self.webmaster = input("Webmaster email: ")
-    self.lastpubdate = input("Webmaster email: ")
-    self.lastbuilddate = input("Webmaster email: ")
+    self.link = Input.link()
+    self.webmaster = 'webmaster@' + self.link
+    self.lastpubdate = f'{datetime.now()}'
+    self.lastbuilddate = f'{datetime.now()}'
 
   def xml(self):
     feed = header(self)
@@ -27,8 +29,8 @@ class Item():
   instances = []
   def __init__(self, fileName, parent) -> None:
       self.title = re.sub(r'.mp3|.m4b|.mb3|.mb4', '', fileName)
-      self.ep_link = f'{parent.link}/rss/{fileName}'
-      self.enclosureURL = f'{parent.link}/rss/{fileName}'
+      self.ep_link = f'{parent.link}/rss/{parent.linkTitle}/{fileName}'
+      self.enclosureURL = f'{parent.link}/rss/{parent.linkTitle}/{fileName}'
       self.description = fileName
       self.bytes = f'{os.path.getsize(fileName)}'
       self.pubdate = f'{datetime.now()}'
