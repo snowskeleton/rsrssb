@@ -1,6 +1,6 @@
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from template import ITEM_TEMPLATE, FOOTER
 from templateEditor import header
@@ -33,7 +33,7 @@ class Item():
       self.enclosureURL = f'{parent.link}/rss/{parent.linkTitle}/{fileName}'
       self.description = fileName
       self.bytes = f'{os.path.getsize(fileName)}'
-      self.pubdate = f'{datetime.now()}'
+      self.pubdate = f'{(datetime.now() + timedelta(days=len(self.instances)))}'
       self.__class__.instances.append(self)
 
   def spaghetti(self) -> str:
