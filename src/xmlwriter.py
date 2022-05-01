@@ -66,4 +66,4 @@ def dothexml(feed):
 
   root.appendChild(rss)
 
-  return root.toprettyxml(indent='\t')
+  return root.toprettyxml(indent=' ')
