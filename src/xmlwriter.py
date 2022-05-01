@@ -16,7 +16,10 @@ def dothexml(feed):
 
   # start creating the tree
   rss = root.createElement('rss')
-  rss.setAttribute('version', '2')
+  rss.setAttribute('version', '2.0')
+  rss.setAttribute('xmlns:atom', 'http://www.w3.org/2005/Atom')
+  rss.setAttribute('xmlns:itunes', 'http://www.itunes.com/dtds/podcast-1.0.dtd')
+  rss.setAttribute('xmlns:ituneu', 'http://www.itunesu.com/feed')
   channel = root.createElement('channel')
   smear(rss, channel)
 
