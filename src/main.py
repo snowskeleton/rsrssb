@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from template import *
 from guesswork import yesTo, guessFiles
 from feed import Feed, Item
 
