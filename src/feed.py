@@ -32,7 +32,7 @@ class Item():
   def __init__(self, fileName, parent) -> None:
       self.title = re.sub(r'.mp3|.m4b|.mb3|.mb4|.m4a', '', fileName)
       self.ep_link = f'https://{parent.link}/rss/{parent.linkTitle}/{fileName}'
-      self.enclosureURL = f'{parent.link}/rss/{parent.linkTitle}/{fileName}'
+      self.enclosureURL = f'https://{parent.link}/rss/{parent.linkTitle}/{fileName}'
       self.description = fileName
       self.bytes = f'{os.path.getsize(fileName)}'
       self.pubDate = f'{(datetime.now() + timedelta(days=len(self.instances())))}'
