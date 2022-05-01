@@ -10,9 +10,10 @@ class Feed():
   def __init__(self):
     self.title = Input.title()
     self.description = self.title
+    self.domain = f'https://{Input.link()}'
     cleanTitle = re.sub(' ', '', self.title)
-    self.link = f'https://{Input.link()}/rss/{cleanTitle}'
-    self.webmaster = 'webmaster@' + self.link
+    self.link = f'{self.domain}/rss/{cleanTitle}'
+    self.webmaster = 'webmaster@' + self.domain
     self.lastpubdate = f'{datetime.now()}'
     self.lastbuilddate = f'{datetime.now()}'
 

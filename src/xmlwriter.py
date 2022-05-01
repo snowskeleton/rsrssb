@@ -30,9 +30,9 @@ def dothexml(feed):
 
   #smack 'em all together
   smush(title, f'{feed.title}')
-  smush(link, f'{feed.link}')
+  smush(link, f'{feed.domain}')
   smush(description, f'{feed.description}')
-  smush(webmaster, 'webmaster@' + feed.link)
+  smush(webmaster, f'{feed.webmaster}')
   smush(pubDate, f'{datetime.now()}')
   smush(lastBuildDate, f'{datetime.now()}')
   smush(docs, 'http://blogs.law.harvard.edu/tech/rss')
@@ -40,6 +40,7 @@ def dothexml(feed):
               pubDate, lastBuildDate, docs]:
     smear(channel, tag)
 
+  # time to create the items
   items = []
   for item in Item.instances():
     _item = root.createElement('item')
