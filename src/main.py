@@ -5,15 +5,18 @@ from feed import Feed, Item
 
 
 def main():
-	match input("Enter 'd' for deafult options: "):
-		case "d" | "default" | _:
-			print('\n'.join(guessFiles()))
-			if approval('Are these the files you want to use? '):
-				horse(guessFiles())
-			else:
-				ext = input("Type which extension you're using (e.g., mp3, m4b, aac): ")
-				horse(guessFiles(ext))
+	ext = guessFiles()
+	found = False
 
+	while not found:
+		print('\n'.join(ext))
+		if approval('Are these the files you want to use? '):
+			horse(ext)
+			found = True
+		else:
+			ext = guessFiles(
+				input("Type which extension you're using (e.g., mp3, m4b, aac): "))
+	print('Done')
 
 
 def audioFileCheck(item):
@@ -25,7 +28,7 @@ def audioFileCheck(item):
 def horse(files):
 	feed = Feed()
 	with open('feed.xml', 'w') as output:
-		for f in files:
+		for f in sorted(files):
 			Item(f, parent=feed)
 		output.write(str(feed.xml()))
 
