@@ -16,6 +16,7 @@ def dothexml(feed):
 
   # start creating the tree
   rss = root.createElement('rss')
+  rss.setAttribute('version', '2')
   channel = root.createElement('channel')
   smear(rss, channel)
 
@@ -23,9 +24,12 @@ def dothexml(feed):
   title = root.createElement('title')
   link = root.createElement('link')
   description = root.createElement('descritpion')
-  webmaster = root.createElement('webmaster')
+  itblock = root.createElement('itunes:block')
+  itimage = root.createElement('itunes:image')
+  itimage.setAttribute('url', f'{feed.link}/cover.jpg')
   pubDate = root.createElement('lastpubdate')
   lastBuildDate = root.createElement('lastBuildDate')
+  webmaster = root.createElement('webmaster')
   docs = root.createElement('docs')
 
   #smack 'em all together
@@ -36,8 +40,9 @@ def dothexml(feed):
   smush(pubDate, f'{datetime.now()}')
   smush(lastBuildDate, f'{datetime.now()}')
   smush(docs, 'http://blogs.law.harvard.edu/tech/rss')
+  #itblock
   for tag in [title, link, description, webmaster,
-              pubDate, lastBuildDate, docs]:
+              pubDate, lastBuildDate, docs, itblock, itimage]:
     smear(channel, tag)
 
   # time to create the items

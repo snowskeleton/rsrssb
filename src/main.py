@@ -39,9 +39,10 @@ def main():
 			done = True
 			print('Done')
 		else:
-			ext = guessFiles(input("Type which extension " +
-                         "you're using (e.g., mp3, m4b, aac): "))
-			# try removing the line break and having vscode autoformat for you
+			longstring = "Type an extension (e.g., mp3, m4b, aac): "
+			ext = guessFiles(input(longstring))
+		# ext =
+		# try removing the line break and having vscode autoformat for you
 
 
 if __name__ == '__main__':
