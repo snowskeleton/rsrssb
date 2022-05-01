@@ -44,3 +44,5 @@ This is left as an exercise for the reader.
 
 Note that the default configuration has the following path: ```<domain name>/rss/<podcast title>```.
 You can change this in the ```template.py``` if you would prefer to use a different path.
+
+curl -l https://overcast.fm/ping\?urlprefix='https://\<domain\>'
