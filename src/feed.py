@@ -37,5 +37,5 @@ class Item():
       self.description = fileName
       self.bytes = f'{os.path.getsize(fileName)}'
       # this date increases by one day for every item that has been created so far.
-      self.pubDate = f'{(datetime.now() + timedelta(days=len(self.instances())))}'
+      self.pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'
       self.__class__._instances.append(self)
