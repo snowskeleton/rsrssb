@@ -2,7 +2,7 @@ import os
 
 
 # simple yes/no state determiner.
-def approval(question) -> bool:
+def yesTo(question) -> bool:
   match input(question + '(y/N)'):
     case 'y' | 'Y' | 'yes' | 'ye' | 'ys':
       return True

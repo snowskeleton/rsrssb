@@ -10,19 +10,14 @@ def main():
 
 	while not found:
 		print('\n'.join(ext))
-		if approval('Are these the files you want to use? '):
+		if yesTo('Are these the files you want to use? '):
 			horse(ext)
 			found = True
 		else:
 			ext = guessFiles(
 				input("Type which extension you're using (e.g., mp3, m4b, aac): "))
+
 	print('Done')
-
-
-def audioFileCheck(item):
-	if item.__contains__(r'.*\.jpg|.*\.png|.*\.xml|rss'):
-		return False
-	return True
 
 
 def horse(files):
