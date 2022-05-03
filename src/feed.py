@@ -19,7 +19,7 @@ class Feed():
     cleanTitle = re.sub(' ', '', self.title)
 
     # a magic regex that gets the parent dir without any preceding path
-    a = re.sub(r'^.*/', '', os.path.dirname(os.getcwd()))
+    a = re.sub(r'^.*/', '', os.getcwd())
 
     self.link = f'https://{self.domain}/rss/{a}/{cleanTitle}'
 
