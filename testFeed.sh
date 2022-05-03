@@ -1,3 +1,5 @@
+trap "rm -rf ../.tmp" EXIT
+
 mkdir .tmp
 cd .tmp
 touch \
@@ -27,4 +29,4 @@ touch \
 'test_chap 11.m4b'
 
 python3 ../src/main.py --title "this is really long" --domain snowskeleton.net
-mv feed.xml ../ && rm -rf ../.tmp
+mv feed.xml ../ && rm -rf .tmp

@@ -1,4 +1,6 @@
 *__pycache__*
 auth
 feed.xml
-config.py
+.env
+.tmp
+.DS_STORE

@@ -11,11 +11,10 @@ def yesTo(question) -> bool:
       return True
   return False
 
+
 # returns list of all mp3 files in current directory,
 # which is probably the files you're trying to make a
 # pdocast feed from.
-
-
 def guessFiles(extension='mp3') -> list:
   return [f for f in os.listdir() if f.__contains__(extension)]
 
@@ -41,8 +40,6 @@ def main():
 		else:
 			longstring = "Type an extension (e.g., mp3, m4b, aac): "
 			ext = guessFiles(input(longstring))
-		# ext =
-		# try removing the line break and having vscode autoformat for you
 
 
 if __name__ == '__main__':
