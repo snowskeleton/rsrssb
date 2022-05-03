@@ -15,13 +15,9 @@ class Feed():
     self.lastpubdate = f'{datetime.now()}'
     self.lastbuilddate = f'{datetime.now()}'
 
-    # hafta do some string sanitization
-    cleanTitle = re.sub(' ', '', self.title)
-
     # a magic regex that gets the parent dir without any preceding path
-    a = re.sub(r'^.*/', '', os.getcwd())
-
-    self.link = f'https://{self.domain}/rss/{a}/{cleanTitle}'
+    dir = re.sub(r'^.*/', '', os.getcwd())
+    self.link = f'https://{self.domain}/rss/{dir}'
 
 
 class Item():
