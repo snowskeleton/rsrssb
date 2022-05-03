@@ -1,10 +1,10 @@
 DEST="/usr/local/bin/rsrssb"
 LIB="/usr/lib/rsrssb"
 
-while getopts u; do
+while getopts u flag; do
   update=1
 done
-while getopts r; do
+while getopts r flag; do
   remove=1
 done
 
