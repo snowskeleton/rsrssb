@@ -37,7 +37,7 @@ def dothexml(feed):
 
   #smack 'em all together
   smush(title, feed.title)
-  smush(link, feed.domain)
+  smush(link, feed.link)
   smush(description, feed.description)
   smush(webmaster, feed.webmaster)
   smush(pubDate, str(datetime.now()))
