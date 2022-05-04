@@ -28,18 +28,24 @@ def persistinator(files):
 
 
 def main():
-	ext = guessFiles()
-	done = False
+	try:
+		ext = guessFiles()
+		done = False
 
-	while not done:
-		print('\n'.join(ext))
-		if yesTo('Are these the files you want to use? '):
-			persistinator(ext)
-			done = True
-			print('Done')
-		else:
-			longstring = "Type an extension (e.g., mp3, m4b, aac): "
-			ext = guessFiles(input(longstring))
+		while not done:
+			print('\n'.join(ext))
+			if yesTo('Are these the files you want to use? '):
+				persistinator(ext)
+				done = True
+				print('Done')
+			else:
+				longstring = "Type an extension (e.g., mp3, m4b, aac): "
+				ext = guessFiles(input(longstring))
+	except KeyboardInterrupt:
+		import sys
+		print('\nAbort mission.')
+		sys.exit()
+
 
 
 if __name__ == '__main__':
