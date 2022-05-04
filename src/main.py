@@ -43,7 +43,7 @@ def main():
 				ext = guessFiles(input(longstring))
 	except KeyboardInterrupt:
 		import sys
-		print('\nAbort j.')
+		print('\nAbort mission.')
 		sys.exit()
 
 

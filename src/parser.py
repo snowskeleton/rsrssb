@@ -27,13 +27,14 @@ class parse():
       help='The name of your feed',
       default='',
   )
-  p.add_argument(
-      '--index', '-i',
-      dest='index',
-      action='store_true',
-      help='Used without any other optionnsto create index.html file for all podcasts in cwd (recursively)',
-      default=False,
-  )
+  # not implemented
+  # p.add_argument(
+  #     '--index', '-i',
+  #     dest='index',
+  #     action='store_true',
+  #     help='Used without any other optionnsto create index.html file for all podcasts in cwd (recursively)',
+  #     default=False,
+  # )
   args = p.parse_args()
 
   @classmethod
@@ -47,6 +48,7 @@ class parse():
   @classmethod
   def title(self):
     return self.args.title
-  @classmethod
-  def index(self):
-    return self.args.index
+
+  # @classmethod
+  # def index(self):
+  #   return self.args.index
