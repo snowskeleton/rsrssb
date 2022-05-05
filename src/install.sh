@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 DEST="/usr/local/bin/rsrssb"
 LIB="/usr/lib/rsrssb"
 
@@ -13,14 +14,17 @@ done
 #sudo mkdir ${LIB}
 
 if [[ $update -eq 1 ]]; then
-  git stash && git pull
+  printf 'git: '
+  git stash
+  printf 'git: '
+  git pull
   sudo rm -rf ${LIB}
   sudo rm -rf ${DEST}
 fi
 
-#comment out to not install (acts as a complete uninstall if paired with the above)
 if [[ $remove -ne 1 ]]; then
-  sudo cp -r ../../rsrssb ${LIB}
+  sudo cp -r $(pwd) ${LIB}
   sudo ln -s ${LIB}/src/main.py ${DEST}
   sudo chmod 755 ${DEST}
+  echo Finished
 fi
