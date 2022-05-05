@@ -27,14 +27,31 @@ class parse():
       help='The name of your feed',
       default='',
   )
-  # not implemented
-  # p.add_argument(
-  #     '--index', '-i',
-  #     dest='index',
-  #     action='store_true',
-  #     help='Used without any other optionnsto create index.html file for all podcasts in cwd (recursively)',
-  #     default=False,
-  # )
+  p.add_argument(
+      '--unattended', '-y',
+      dest='unattended',
+      action='store_true',
+      help='Use this to bypass user input, leaving all values default',
+      default='',
+  )
+  p.add_argument(
+      '--extension', '-e',
+      dest='extension',
+      action='store',
+      type=str,
+      help='The name of your feed',
+      default='mp3',
+  )
+  p.add_argument(
+      '--output', '-o',
+      dest='outputFile',
+      action='store',
+      type=str,
+      help='Name of rss file to be created',
+      default='feed.xml',
+  )
+
+
   args = p.parse_args()
 
   @classmethod
@@ -49,6 +66,10 @@ class parse():
   def title(self):
     return self.args.title
 
-  # @classmethod
-  # def index(self):
-  #   return self.args.index
+  @classmethod
+  def extension(self):
+    return self.args.extension
+
+  @classmethod
+  def output(self):
+    return self.args.outputFile

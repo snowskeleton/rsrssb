@@ -15,12 +15,15 @@ vals = dotenv_values('~/.rsrssb')
 def getTrueValue(value, question):
   if value in parse.args:
     return getattr(parse.args, value)
+
   if value in vals:
     return getattr(vals, value)
+
   # save for next time
   domain = input(question)
   with open('~/.rsrssb', 'w') as settings:
     settings.write(f'domain={domain}')
+
   return domain
 
 
@@ -31,6 +34,9 @@ class env():
 
   @classmethod
   def title(self):
-    if parse.title != '':
+    if parse.title() != '':
       return parse.title()
+
+    if parse.unattended:
+      raise SystemExit("Title not defined and input not available (usually because you're running in unattended mode)")
     return input("Title: ")
