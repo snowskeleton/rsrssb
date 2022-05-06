@@ -38,10 +38,16 @@ class Item():
 
   # yay abstraction
   def description(self):
-    return self.ac_description if self.ac else self._description
+    try:
+      return self.ac_description
+    except:
+      return self._description
 
   def pubDate(self):
-    return self.ac_release_date if self.ac else self._pubDate
+    try:
+      return self.ac_pub_date
+    except:
+      return self._pubDate
 
   def __init__(self, fileName, parent) -> None:
       # matches ```any_filename.123```
@@ -64,7 +70,8 @@ class Item():
       self.enclosureURL = self.ep_link
 
       # file size in bytes (required for podcast feed)
-      self.bytes = f'{os.path.getsize(fileName)}'
+      # self.bytes = f'{os.path.getsize(fileName)}'
+      self.bytes = 42
 
       # this date increases by one day for each item that has so far been created.
       self._pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'

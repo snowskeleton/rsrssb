@@ -22,8 +22,9 @@ def yesTo(question) -> bool:
 # which is probably the files you're trying to make a
 # pdocast feed from.
 def guessFiles(extension=parse.extension()) -> list:
-	if parse.input != '':
-		with open(parse.input(), 'r') as file:
+	i = parse.input()
+	if i != '':
+		with open(i, 'r') as file:
 			a = file.readlines()
 			return a
 

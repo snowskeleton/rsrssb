@@ -3,4 +3,5 @@ auth
 feed.xml
 .env
 .tmp
-.DS_STORE
+.DS_Store
+library.tsv
