@@ -3,6 +3,8 @@ import re
 from datetime import datetime, timedelta
 
 from variables import env
+from parser import parse
+from utils import tsv2json
 
 
 class Feed():
@@ -34,15 +36,38 @@ class Item():
   def __gt__(self, other):
     return self.title > other.title
 
+  # yay abstraction
+  def description(self):
+    return self.ac_description if self.ac else self._description
+
+  def pubDate(self):
+    return self.ac_release_date if self.ac else self._pubDate
+
   def __init__(self, fileName, parent) -> None:
-      self.title = re.sub(r'.mp3|.m4b|.mb3|.mb4|.m4a', '', fileName)
+      # matches ```any_filename.123```
+      self.title = re.sub(r'\....$', '', fileName)
+      self._description = self.title
+
+      # if we have the audible-cli data, use it
+      if parse.audible_cli_data() != '':
+        data = tsv2json(None, parse.audible_cli_data())
+        for book in data:
+          if book['title'] in self.title:
+            self.ac_description = book['description']
+            self.ac_series_title = book['series_title']
+            self.ac_series_sequence = book['series_sequence']
+            self.ac_subtitle = book['subtitle']
+            self.ac_release_date = book['release_date']
+            self.ac = True
+
       self.ep_link = f'{parent.link}/{fileName}'
       self.enclosureURL = self.ep_link
 
       # file size in bytes (required for podcast feed)
       self.bytes = f'{os.path.getsize(fileName)}'
+
       # this date increases by one day for each item that has so far been created.
-      self.pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'
+      self._pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'
 
       # add self to list of class items
       self.__class__._instances.append(self)

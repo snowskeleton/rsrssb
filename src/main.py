@@ -23,7 +23,6 @@ def yesTo(question) -> bool:
 # pdocast feed from.
 def guessFiles(extension=parse.extension()) -> list:
 	if parse.input != '':
-		print(parse.input())
 		with open(parse.input(), 'r') as file:
 			a = file.readlines()
 			return a
@@ -37,7 +36,8 @@ def main():
 		done = False
 
 		while not done:
-			print('\n'.join(files))
+			if not parse.silent:
+				print('\n'.join(files))
 			if yesTo('Are these the files you want to use? '):
 				feed = Feed()
 				for file in sorted(files):

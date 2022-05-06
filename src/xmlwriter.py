@@ -62,8 +62,8 @@ def dothexml(feed):
 
     smush(title, f'{item.title}')
     smush(link, f'{item.enclosureURL}')
-    smush(description, f'{item.description}')
-    smush(pubDate, f'{item.pubDate}')
+    smush(description, f'{item.description()}')
+    smush(pubDate, f'{item.pubDate()}')
 
     for tag in [title, link, description, pubDate, enclosure]:
       smear(_item, tag)

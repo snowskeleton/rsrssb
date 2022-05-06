@@ -28,5 +28,13 @@ touch \
 'test_chap 10.m4b' \
 'test_chap 11.m4b'
 
-python3 ../src/main.py --title "Ceci nes pas une title" --domain snowskeleton.net -y --output feed.xml --audible-cli-data ../library.tsv --input ../list
+python3 ../src/main.py \
+--title "Ceci nes pas une title" \
+--domain snowskeleton.net \
+-y \
+--output feed.xml \
+--audible-cli-data ../library.tsv \
+--input ../list.txt \
+-s
+
 mv feed.xml ../ && rm -rf .tmp

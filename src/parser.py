@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 # parses cli arguments and returns values
 class parse():
@@ -57,6 +58,19 @@ class parse():
     type=str,
     default=''
   )
+  p.add_argument(
+    '--silent', '-s',
+    dest='silent',
+    action='store_true',
+    default=False
+  )
+  p.add_argument(
+    '--audible-cli-data',
+    dest='audible_cli_data',
+    action='store',
+    help='filename of library export from mkb79/audible-cli',
+    default='',
+  )
 
 
   args = p.parse_args()
@@ -84,3 +98,11 @@ class parse():
   @classmethod
   def input(self):
     return self.args.input
+
+  @classmethod
+  def audible_cli_data(self):
+    return self.args.audible_cli_data
+
+  @classmethod
+  def silent(self):
+    return self.args.silent
