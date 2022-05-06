@@ -38,10 +38,11 @@ class Item():
       self.title = re.sub(r'.mp3|.m4b|.mb3|.mb4|.m4a', '', fileName)
       self.ep_link = f'{parent.link}/{fileName}'
       self.enclosureURL = self.ep_link
-      self.description = self.title
+
       # file size in bytes (required for podcast feed)
       self.bytes = f'{os.path.getsize(fileName)}'
       # this date increases by one day for each item that has so far been created.
       self.pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'
+
       # add self to list of class items
       self.__class__._instances.append(self)

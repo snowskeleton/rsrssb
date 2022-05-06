@@ -50,6 +50,13 @@ class parse():
       help='Name of rss file to be created',
       default='feed.xml',
   )
+  p.add_argument(
+    '--input','-i',
+    dest='input',
+    action='store',
+    type=str,
+    default=''
+  )
 
 
   args = p.parse_args()
@@ -73,3 +80,7 @@ class parse():
   @classmethod
   def output(self):
     return self.args.outputFile
+
+  @classmethod
+  def input(self):
+    return self.args.input
