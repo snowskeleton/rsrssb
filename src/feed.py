@@ -50,6 +50,7 @@ class Item():
       return self._pubDate
 
   def __init__(self, fileName, parent) -> None:
+      # changes ```any_filename.123``` to ```any_filename```
       # matches ```any_filename.123```
       self.title = re.sub(r'\....$', '', fileName)
       self._description = self.title
