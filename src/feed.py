@@ -51,7 +51,6 @@ class Item():
 
   def __init__(self, fileName, parent) -> None:
       # changes ```any_filename.123``` to ```any_filename```
-      # matches ```any_filename.123```
       self.title = re.sub(r'\....$', '', fileName)
       self._description = self.title
 
@@ -71,8 +70,7 @@ class Item():
       self.enclosureURL = self.ep_link
 
       # file size in bytes (required for podcast feed)
-      # self.bytes = f'{os.path.getsize(fileName)}'
-      self.bytes = 42
+      self.bytes = f'{os.path.getsize(fileName)}'
 
       # this date increases by one day for each item that has so far been created.
       self._pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'
