@@ -4,7 +4,7 @@ RSRSSB is a python program that builds an RSS (podcast) feed with arbitrary audi
 
 RSRSSB was originally developed as a way to quickly create a personal RSS feed for audiobook files to be consumed through a podcast player.
 
-See ***upcoming link*** for details on downloading your Audible books.
+See https://github.com/mkb79/audible-cli for details on downloading your Audible books.
 
 
 # Install
