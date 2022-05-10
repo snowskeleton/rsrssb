@@ -32,9 +32,11 @@ def filterFiles(files):
     # don't reverse these for loops.
     # titles in library aren't guaranteed to be downloaded.
     for f in files:
-        f = stripFileExtension(f)
+        # have to be careful not to overwrite the original filename, since
+        # other parts of the code are relying on it. no side effects.
+        x = stripFileExtension(f)
         for s in stuff:
-            if s['title'] == f:
+            if s['title'] == x:
                 if val in str(s):
                     goodFiles.append(f)
     return goodFiles
