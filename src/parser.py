@@ -40,7 +40,7 @@ class parse():
       dest='extension',
       action='store',
       type=str,
-      help='The name of your feed',
+      help='The format of your audio files',
       default='mp3',
   )
   p.add_argument(
@@ -56,13 +56,15 @@ class parse():
     dest='input',
     action='store',
     type=str,
-    default=''
+    default='',
+    help='relative path to file containing a list of files',
   )
   p.add_argument(
     '--silent', '-s',
     dest='silent',
     action='store_true',
-    default=False
+    default=False,
+    help='Suppress stdout',
   )
   p.add_argument(
     '--audible-cli-data',
