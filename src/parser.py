@@ -73,6 +73,13 @@ class parse():
     help='filename of library export from mkb79/audible-cli',
     default='',
   )
+  p.add_argument(
+    '--sort-by',
+    dest='sort',
+    action='store',
+    default=None,
+    help='A value by which to collect files. Requires audible-cli data',
+  )
 
 
   args = p.parse_args()
@@ -108,3 +115,7 @@ class parse():
   @classmethod
   def silent(self):
     return self.args.silent
+
+  @classmethod
+  def sort(self):
+    return self.args.sort

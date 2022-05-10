@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from variables import env
 from parser import parse
-from utils import tsv2json
+from utils import stripFileExtension, tsv2json
 
 
 class Feed():
@@ -51,20 +51,19 @@ class Item():
 
   def __init__(self, fileName, parent) -> None:
       # changes ```any_filename.123``` to ```any_filename```
-      self.title = re.sub(r'\....$', '', fileName)
+      self.title = stripFileExtension(fileName)
       self._description = self.title
 
       # if we have the audible-cli data, use it
       if parse.audible_cli_data() != '':
-        data = tsv2json(None, parse.audible_cli_data())
-        for book in data:
-          if book['title'] in self.title:
-            self.ac_description = book['description']
-            self.ac_series_title = book['series_title']
-            self.ac_series_sequence = book['series_sequence']
-            self.ac_subtitle = book['subtitle']
-            self.ac_release_date = book['release_date']
-            self.ac = True
+        data = tsv2json(parse.audible_cli_data())
+        for book in [b for b in data if b['title'] in self.title]:
+          self.ac_description = book['description']
+          self.ac_series_title = book['series_title']
+          self.ac_series_sequence = book['series_sequence']
+          self.ac_subtitle = book['subtitle']
+          self.ac_release_date = book['release_date']
+          self.ac = True
 
       self.ep_link = f'{parent.link}/{fileName}'
       self.enclosureURL = self.ep_link

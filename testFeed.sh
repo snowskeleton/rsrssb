@@ -33,7 +33,6 @@ python3 ../src/main.py \
 --domain snowskeleton.net \
 -y \
 --audible-cli-data ../library.tsv \
---input ../list.txt \
 -s
 
 mv feed.xml ../ && rm -rf .tmp

@@ -4,6 +4,7 @@ from feed import Feed, Item
 from xmlwriter import dothexml
 from parser import parse
 import sys
+from utils import filterFiles
 
 
 # simple yes/no state determiner.
@@ -28,7 +29,12 @@ def guessFiles(extension=parse.extension()) -> list:
 			a = file.readlines()
 			return a
 
-	return [f for f in os.listdir() if f.__contains__(extension)]
+	files = [f for f in os.listdir() if f.__contains__(extension)]
+
+	if parse.sort():
+		files = filterFiles(files)
+
+	return files
 
 
 def main():
