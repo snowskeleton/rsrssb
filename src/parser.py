@@ -65,6 +65,10 @@ class parse():
     default=False
   )
   p.add_argument(
+    '--version', '-V',
+    dest='version',
+  )
+  p.add_argument(
     '--audible-cli-data',
     dest='audible_cli_data',
     action='store',
@@ -106,3 +110,8 @@ class parse():
   @classmethod
   def silent(self):
     return self.args.silent
+
+  @classmethod
+  def version(self):
+    print("0.1")
+    sys.exit()
