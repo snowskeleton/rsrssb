@@ -5,6 +5,7 @@ from xmlwriter import dothexml
 from parser import parse
 import sys
 from utils import filterFiles
+import db
 
 
 # simple yes/no state determiner.
@@ -15,6 +16,8 @@ def yesTo(question) -> bool:
 	match input(question + '(y/N)'):
 		case 'y' | 'Y' | 'yes' | 'ye' | 'ys':
 			return True
+		case 'q':
+			sys.exit()
 
 	return False
 
@@ -31,22 +34,30 @@ def guessFiles(extension=parse.extension()) -> list:
 
 	files = [f for f in os.listdir() if f.__contains__(extension)]
 
+	# checks if 'sort by author' flag is True
 	if parse.sort():
-		files = filterFiles(files)
+		files = filterFiles()
 
+	# print(files)
+	# sys.exit()
 	return files
 
 
 def main():
+	if parse.rebase():
+		db.rebuildLibrary()
+		sys.exit()
 	try:
 		files = guessFiles()
 		done = False
 
 		while not done:
-			if not parse.silent:
+			if not parse.silent():
 				print('\n'.join(files))
 			if yesTo('Are these the files you want to use? '):
 				feed = Feed()
+				# print(files)
+				# sys.exit()
 				for file in sorted(files):
 					Item(file, parent=feed)
 
@@ -54,7 +65,8 @@ def main():
 					output.write(dothexml(feed))
 
 				done = True
-				print('Done')
+				if not parse.silent():
+					print('Done')
 				sys.exit()
 
 			else:

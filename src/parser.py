@@ -1,6 +1,8 @@
 import argparse
 import sys
 
+import audible_cli
+
 # parses cli arguments and returns values
 class parse():
   p = argparse.ArgumentParser(description='Argument parser description')
@@ -74,11 +76,25 @@ class parse():
     default='',
   )
   p.add_argument(
-    '--sort-by',
+    '--author',
     dest='sort',
     action='store',
     default=None,
     help='A value by which to collect files. Requires audible-cli data',
+  )
+  p.add_argument(
+    '--series-title',
+    dest='series_title',
+    action='store',
+    default=None,
+    help="Name of book series, if applicable. Requires audible-cli data"
+  )
+  p.add_argument(
+    '--rebase',
+    dest='rebase',
+    action='store_true',
+    default=False,
+    help='Use this option to generate a database. Requires audible-cli data',
   )
 
 
@@ -119,3 +135,14 @@ class parse():
   @classmethod
   def sort(self):
     return self.args.sort
+
+  @classmethod
+  def rebase(self):
+    if self.audible_cli_data:
+      return self.args.rebase
+    print("--rebase requires --audible-cli-data")
+    sys.exit()
+
+  @classmethod
+  def series_title(self):
+    return self.args.series_title

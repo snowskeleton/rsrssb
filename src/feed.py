@@ -40,23 +40,24 @@ class Item():
   def description(self):
     try:
       return self.ac_description
-    except:
+    except AttributeError:
       return self._description
+
 
   def pubDate(self):
     try:
-      return self.ac_pub_date
-    except:
+      return self.ac_release_date
+    except AttributeError:
       return self._pubDate
 
   def __init__(self, fileName, parent) -> None:
-      # changes ```any_filename.123``` to ```any_filename```
       self.title = stripFileExtension(fileName)
       self._description = self.title
 
       # if we have the audible-cli data, use it
       if parse.audible_cli_data() != '':
         data = tsv2json(parse.audible_cli_data())
+        # lambda that finds a book in data if it matches self.title
         for book in [b for b in data if b['title'] in self.title]:
           self.ac_description = book['description']
           self.ac_series_title = book['series_title']
@@ -69,7 +70,12 @@ class Item():
       self.enclosureURL = self.ep_link
 
       # file size in bytes (required for podcast feed)
-      self.bytes = f'{os.path.getsize(fileName)}'
+      try:
+        self.bytes = f'{os.path.getsize(fileName)}'
+      except:
+        # this exception is usually only caused by testing RSRSSB with incorrect filenames.
+        print(fileName)
+        self.bytes = '42'
 
       # this date increases by one day for each item that has so far been created.
       self._pubDate = f'{(datetime.now() - timedelta(days=len(self.instances())))}'

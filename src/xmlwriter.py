@@ -26,7 +26,7 @@ def dothexml(feed):
   # define all the headers
   title = root.createElement('title')
   link = root.createElement('link')
-  description = root.createElement('descritpion')
+  description = root.createElement('description')
   itblock = root.createElement('itunes:block')
   itimage = root.createElement('itunes:image')
   itimage.setAttribute('url', f'{feed.link}/cover.jpg')
@@ -53,7 +53,7 @@ def dothexml(feed):
     _item = root.createElement('item')
     title = root.createElement('title')
     link = root.createElement('link')
-    description = root.createElement('descritpion')
+    description = root.createElement('description')
     pubDate = root.createElement('pubDate')
     enclosure = root.createElement('enclosure')
     enclosure.setAttribute('url', f'{item.ep_link}')

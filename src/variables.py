@@ -21,8 +21,8 @@ def getTrueValue(value, question):
 
   # save for next time
   domain = input(question)
-  with open('~/.rsrssb', 'w') as settings:
-    settings.write(f'domain={domain}')
+  # with open('~/.rsrssb', 'w') as settings:
+  #   settings.write(f'domain={domain}')
 
   return domain
 
