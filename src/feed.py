@@ -59,7 +59,7 @@ class Item():
         data = tsv2json(None, parse.audible_cli_data())
         for book in data:
           if book['title'] in self.title:
-            self.ac_description = book['description']
+            self.ac_description = book['extended_product_description']
             self.ac_series_title = book['series_title']
             self.ac_series_sequence = book['series_sequence']
             self.ac_subtitle = book['subtitle']
