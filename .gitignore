@@ -10,3 +10,4 @@ library.tsv
 *.egg-info
 sync.sh
 build
+dist
