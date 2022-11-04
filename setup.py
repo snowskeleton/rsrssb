@@ -30,6 +30,9 @@ setup(name=read_from_file("__title__"),
       author_email=read_from_file("__author_email__"),
       long_description_content_type="text/markdown",
       packages=["rsrssb"],
-      #       install_requires=[
-      # ],
-      entry_points={"console_scripts": ["rsrssb = rsrssb.main:main"]})
+      install_requires=[
+    'ConfigArgParse',
+    'tinytag',
+    'toml',
+],
+    entry_points={"console_scripts": ["rsrssb = rsrssb.main:main"]})
