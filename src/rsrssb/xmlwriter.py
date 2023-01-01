@@ -1,5 +1,4 @@
 from xml.dom import minidom
-from datetime import datetime
 
 
 def doTheXML(feed, files):
@@ -32,8 +31,8 @@ def doTheXML(feed, files):
     smush(link, feed.link)
     smush(description, feed.description)
     smush(webmaster, feed.webmaster)
-    smush(pubDate, str(datetime.now()))
-    smush(lastBuildDate, str(datetime.now()))
+    smush(pubDate, feed.date)
+    smush(lastBuildDate, feed.date)
     smush(docs, 'http://blogs.law.harvard.edu/tech/rss')
     for tag in [title, link, description, webmaster,
                 pubDate, lastBuildDate, docs, itblock, itimage]:

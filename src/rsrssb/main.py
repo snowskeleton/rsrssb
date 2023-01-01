@@ -1,7 +1,7 @@
 import sys
 import os
 from .feed import Feed, Episode
-from .parser import args
+from .myparser import args
 from .xmlwriter import doTheXML
 
 

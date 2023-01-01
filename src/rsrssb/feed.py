@@ -2,9 +2,9 @@ from dataclasses import dataclass, field
 import os
 import re
 from datetime import datetime, timedelta
-from tinytag import TinyTag
+from .tinytag import TinyTag
 
-from .parser import args
+from .myparser import args
 
 
 class Feed():
@@ -14,8 +14,7 @@ class Feed():
         self.description = self.title
         self.domain = args.domain
         self.webmaster = 'webmaster@' + self.domain
-        self.lastpubdate = f'{datetime.now()}'
-        self.lastbuilddate = f'{datetime.now()}'
+        self.date = f"{datetime.now().strftime('%Y-%m-%d')}"
 
         # a magic regex that gets the parent dir without any preceding path
         dir = re.sub(r'^.*/', '', os.getcwd())
@@ -38,18 +37,26 @@ class Episode():
     def __post_init__(self) -> None:
         tags = TinyTag.get(self.filename, encoding='MP4')
         self.title = tags.title.replace(' (Unabridged)', '')
-        self.description = tags.comment
+        try:
+            des = tags.extra['description']
+            des = des.encode('raw_unicode_escape')
+            self.description = des.decode('unicode_escape')
+            # des = codecs.decode(
+            #     tags.extra['description'], 'unicode_escape')
+            # self.description = codecs.decode(
+            #     tags.extra['description'], 'unicode_escape')
+        except KeyError:
+            self.description = tags.comment
         t = datetime.now().replace(year=int(tags.year))
         t -= timedelta(days=len(self.instances))
         self.pubDate = f"{t.strftime('%Y-%m-%d')}"
         self.__class__.instances.append(self)
 
         # file size in bytes (required for podcast feed)
-        try:
+        if os.path.exists(self.filename):
             self.bytes = f'{os.path.getsize(self.filename)}'
-        except:
-            # this exception is usually caused by testing RSRSSB with incorrect filenames.
-            print(f'Incorrect filename: {self.filename}')
+        else:
+            print(f'Unable to locate file: {self.filename}')
             self.bytes = '0'
 
     # the following two functions proper sorting to be done on Episode objects
