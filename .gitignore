@@ -1,7 +1,13 @@
 *__pycache__*
+.pytest_cache
 auth
 feed.xml
-.env
+.venv/
+.vscode/
 .tmp
 .DS_Store
 library.tsv
+*.egg-info
+sync.sh
+build
+dist
