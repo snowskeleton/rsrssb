@@ -1,5 +1,6 @@
 import sys
 import configargparse
+from typing import List, AnyStr
 
 
 ARGUMENTS = [
@@ -36,9 +37,9 @@ ARGUMENTS = [
     (
         ('--extension', '-e',),
         {
-            "dest": 'extension',
+            "dest": 'extensions',
             "action": 'store',
-            "nargs": '+',
+            "nargs": '*',
             "type": str,
             "help": 'The format of your audio files',
             "default": 'mp3',
