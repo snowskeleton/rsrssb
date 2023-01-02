@@ -6,8 +6,8 @@ from .myparser import args
 
 class Feed():
     def __init__(self):
-        self.root: str = os.path.abspath(self.title)
         self.title: str = args.title
+        self.root: str = os.path.abspath(self.title)
         self.domain: str = args.domain
         self.webmaster: str = 'webmaster@' + self.domain
         self.description: str = self.title
