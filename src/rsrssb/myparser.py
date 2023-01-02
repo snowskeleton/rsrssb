@@ -1,6 +1,5 @@
 import sys
 import configargparse
-from typing import List, AnyStr
 
 
 ARGUMENTS = [
