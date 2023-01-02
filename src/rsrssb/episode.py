@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from email.utils import format_datetime
 import os
 from datetime import datetime, timedelta
 from .tinytag import TinyTag
@@ -30,7 +31,7 @@ class Episode():
             self.description = tags.comment
         t = datetime.now().replace(year=int(tags.year))
         t -= timedelta(days=len(self.instances))
-        self.pubDate = f"{t.strftime('%Y-%m-%d')}"
+        self.pubDate = format_datetime(t)
         self.__class__.instances.append(self)
 
         # file size in bytes (required for podcast feed)
