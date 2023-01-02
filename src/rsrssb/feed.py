@@ -1,13 +1,11 @@
 import os
 import re
-from datetime import datetime
 
 from .myparser import args
 
 
 class Feed():
     def __init__(self):
-        self.date: str = f"{datetime.now().strftime('%Y-%m-%d')}"
         self.root: str = os.path.abspath(self.title)
         self.title: str = args.title
         self.domain: str = args.domain
