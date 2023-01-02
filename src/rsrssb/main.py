@@ -12,14 +12,10 @@ def main():
     else:
         files = [f for f in os.listdir() if f.__contains__(args.extension)]
 
-    try:
-        feed = Feed()
-        files = Episode.populateFrom(files)
-        with open(args.outputFile, 'w+') as output:
-            output.write(doTheXML(feed, files))
-
-    except KeyboardInterrupt:
-        sys.exit(print('\nAbort mission.'))
+    feed = Feed()
+    files = Episode.populateFrom(files)
+    with open(args.outputFile, 'w+') as output:
+        output.write(doTheXML(feed, files))
 
 
 if __name__ == '__main__':
