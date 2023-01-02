@@ -10,7 +10,8 @@ def main():
     feed = Feed()
     files = Episode.populatedFrom(derivedFiles())
     with open(args.outputFile, 'w+') as output:
-        output.write(doTheXML(feed, files))
+        textfeed = doTheXML(feed, files)
+        output.write(textfeed)
 
 
 def derivedFiles() -> list:
