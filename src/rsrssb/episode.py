@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
 from email.utils import format_datetime
+from hashlib import sha256
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from .tinytag import TinyTag
 
 
@@ -31,9 +32,21 @@ class Episode():
             des = tags.comment if tags.comment is not None else self.title
             self.description = des
 
-        t = datetime.now().replace(year=int(tags.year))
-        t -= timedelta(days=len(self.instances))
-        self.pubDate = format_datetime(t)
+        # we want stable dates run-to-run, so we use a hash of their filename
+        seed = int(sha256(self.filename.encode()).hexdigest(), base=16)
+        month = (seed % 11) + 1  # one-indexed
+        day = (seed % 27) + 1  # one-indexed
+        hour = (seed % 23)  # zero-indexed
+        minsec = (seed % 59)  # zero-indexed
+        time = datetime(
+            year=int(tags.year),
+            minute=minsec,
+            second=minsec,
+            month=month,
+            hour=hour,
+            day=day,
+        )
+        self.pubDate = format_datetime(time)
 
         # file size in bytes (required for podcast feed)
         if os.path.exists(self.filename):
