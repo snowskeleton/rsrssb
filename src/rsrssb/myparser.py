@@ -40,7 +40,7 @@ ARGUMENTS = [
             "action": 'store',
             "nargs": '*',
             "type": str,
-            "help": 'The format of your audio files',
+            "help": 'The format(s) of your audio files',
             "default": 'mp3',
         }
     ),
