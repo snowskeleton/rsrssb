@@ -14,7 +14,7 @@ class Episode():
 
     instances = []
 
-    def populateFrom(files):
+    def populatedFrom(files):
         return [Episode(f) for f in files]
 
     def __post_init__(self) -> None:

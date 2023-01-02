@@ -7,20 +7,17 @@ from .xmlwriter import doTheXML
 
 
 def main():
-    files = []
-    if args.input is not None:
-        with open(args.input, 'r') as source:
-            files = source.readlines()
-    else:
-        files = deriveFiles()
-
     feed = Feed()
-    files = Episode.populateFrom(files)
+    files = Episode.populatedFrom(derivedFiles())
     with open(args.outputFile, 'w+') as output:
         output.write(doTheXML(feed, files))
 
 
-def deriveFiles() -> list:
+def derivedFiles() -> list:
+    if args.input is not None:
+        with open(args.input, 'r') as source:
+            return source.readlines()
+
     exts = args.extensions
     potentialFiles = os.listdir()
     files = []
