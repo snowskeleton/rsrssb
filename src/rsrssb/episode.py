@@ -19,7 +19,10 @@ class Episode():
 
     def __post_init__(self) -> None:
         tags = TinyTag.get(self.filename, encoding='MP4')
-        self.title = tags.title.replace(' (Unabridged)', '')
+        if tags.title is not None:
+            self.title = tags.title.replace(' (Unabridged)', '')
+        else:
+            self.title = self.filename
         if 'description' in tags.extra.keys():
             des = tags.extra['description']
             des = des.encode('raw_unicode_escape')
@@ -28,7 +31,10 @@ class Episode():
             self.description = des
         else:
             self.description = tags.comment
-        t = datetime.now().replace(year=int(tags.year))
+        if tags.year is None:
+            t = datetime.now().replace(year=int('2020'))
+        else:
+            t = datetime.now().replace(year=int(tags.year))
         t -= timedelta(days=len(self.instances))
         self.pubDate = f"{t.strftime('%Y-%m-%d')}"
         self.__class__.instances.append(self)
