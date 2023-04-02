@@ -14,4 +14,4 @@ class Feed():
 
         # a magic regex that gets the parent dir without any preceding path
         dir = re.sub(r'^.*/', '', os.getcwd())
-        self.link = f'https://{self.domain}/rss/{dir}'
+        self.link = f'https://{self.domain}/{dir}'
