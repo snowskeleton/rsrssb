@@ -1,4 +1,6 @@
 from xml.dom import minidom
+import urllib.parse
+from urllib.parse import quote
 from datetime import datetime
 
 
@@ -59,7 +61,7 @@ def doTheXML(feed, files):
         description = root.createElement('description')
         pubDate = root.createElement('pubDate')
         enclosure = root.createElement('enclosure')
-        enclosure.setAttribute('url', f'{feed.link}/{_item.filename}')
+        enclosure.setAttribute('url', f'{feed.link}/{quote(_item.filename)}')
         enclosure.setAttribute('type', 'audio/mpeg')
         enclosure.setAttribute('length', f'{_item.bytes}')
 
