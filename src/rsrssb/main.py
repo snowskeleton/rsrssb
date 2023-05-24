@@ -7,7 +7,8 @@ from .xmlwriter import doTheXML
 
 
 def main():
-    feed = Feed()
+    title, domain = args.title, args.domain
+    feed = Feed(title, domain)
     files = episodesFrom(derivedFiles())
     with open(args.outputFile, 'w+') as output:
         textfeed = doTheXML(feed, files)
