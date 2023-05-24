@@ -1,14 +1,12 @@
 import os
 import re
 
-from .myparser import args
-
 
 class Feed():
-    def __init__(self):
-        self.title: str = args.title
+    def __init__(self, title, domain):
+        self.title: str = title
         self.root: str = os.path.abspath(self.title)
-        self.domain: str = args.domain
+        self.domain: str = domain
         self.webmaster: str = 'webmaster@' + self.domain
         self.description: str = self.title
 

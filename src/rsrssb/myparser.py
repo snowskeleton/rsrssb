@@ -80,4 +80,4 @@ cmdline = configargparse.ArgumentParser()
 for argument_commands, argument_options in ARGUMENTS:
     cmdline.add_argument(*argument_commands, **argument_options)
 
-args = cmdline.parse_args(sys.argv[1:])
+args, _ = cmdline.parse_known_args(sys.argv[1:])
