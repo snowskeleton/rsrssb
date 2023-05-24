@@ -1,15 +1,14 @@
 import sys
 import os
 from .feed import Feed
-from .episode import Episode
+from .episode import episodesFrom
 from .myparser import args
 from .xmlwriter import doTheXML
 
 
 def main():
-    title, domain = args.title, args.domain
-    feed = Feed(title, domain)
-    files = Episode.populatedFrom(derivedFiles())
+    feed = Feed()
+    files = episodesFrom(derivedFiles())
     with open(args.outputFile, 'w+') as output:
         textfeed = doTheXML(feed, files)
         output.write(textfeed)

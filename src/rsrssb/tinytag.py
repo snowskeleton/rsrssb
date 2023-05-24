@@ -40,6 +40,7 @@ except ImportError:
 from functools import reduce
 from io import BytesIO
 import aifc
+import base64
 import codecs
 import io
 import json
@@ -91,14 +92,17 @@ class TinyTag(object):
         self._filename = None  # for debugging purposes
         self._default_encoding = None  # allow override for some file formats
         self.filesize = filesize
+        self.adrmBlob = None  # aax support
         self.album = None
         self.albumartist = None
         self.artist = None
         self.audio_offset = None
         self.bitrate = None
         self.channels = None
+        self.checksum = None  # aax support
         self.comment = None
         self.composer = None
+        self.description = None
         self.disc = None
         self.disc_total = None
         self.duration = None
@@ -312,7 +316,7 @@ class MP4(TinyTag):
                 conversion = cls.ATOM_DECODER_BY_TYPE.get(data_type)
                 if conversion is None:
                     stderr('Cannot convert data type: %s' % data_type)
-                    return {}  # don't kno/getw how to convert data atom
+                    return {}  # don't know how to convert data atom
                 # skip header & null-bytes, convert rest
                 return {fieldname: conversion(data_atom[8:])}
             return parse_data_atom
@@ -415,8 +419,7 @@ class MP4(TinyTag):
         # need test-data for this
         # b'cpil':   {b'data': Parser.make_data_atom_parser('extra.compilation')},
         b'\xa9day': {b'data': Parser.make_data_atom_parser('year')},
-        # need test-data for this
-        b'\xa9des': {b'data': Parser.make_data_atom_parser('extra.description')},
+        b'\xa9des': {b'data': Parser.make_data_atom_parser('description')},
         b'\xa9gen': {b'data': Parser.make_data_atom_parser('genre')},
         b'\xa9lyr': {b'data': Parser.make_data_atom_parser('extra.lyrics')},
         b'\xa9mvn': {b'data': Parser.make_data_atom_parser('movement')},
@@ -424,8 +427,7 @@ class MP4(TinyTag):
         b'\xa9wrt': {b'data': Parser.make_data_atom_parser('composer')},
         b'aART': {b'data': Parser.make_data_atom_parser('albumartist')},
         b'cprt': {b'data': Parser.make_data_atom_parser('extra.copyright')},
-        # need test-data for this
-        # b'desc': {b'data': Parser.make_data_atom_parser('extra.description')},
+        b'desc': {b'data': Parser.make_data_atom_parser('extra.description')},
         b'disk': {b'data': Parser.make_number_parser('disc', 'disc_total')},
         b'gnre': {b'data': Parser.parse_id3v1_genre},
         b'trkn': {b'data': Parser.make_number_parser('track', 'track_total')},
@@ -450,6 +452,7 @@ class MP4(TinyTag):
 
     VERSIONED_ATOMS = {b'meta', b'stsd'}  # those have an extra 4 byte header
     FLAGGED_ATOMS = {b'stsd'}  # these also have an extra 4 byte header
+    AAVD_DATA_TREE = {b'aavd': {b'adrm'}}  # unique to audible .aax files
 
     def _determine_duration(self, fh):
         self._traverse_atoms(fh, path=self.AUDIO_DATA_TREE)
@@ -492,7 +495,14 @@ class MP4(TinyTag):
                         stderr(' ' * 4 * len(curr_path), 'FIELD: ', fieldname)
                     if fieldname:
                         self._set_field(fieldname, value)
-            # if no action was specified using dict or callable, jump over atom
+            # Adrm blob described in mov_read_adrm()
+            # https://github.com/FFmpeg/FFmpeg/blob/master/libavformat/mov.c
+            elif atom_type in self.AAVD_DATA_TREE:
+                fh.seek(95, os.SEEK_CUR)  # absolute position 0x251
+                self._set_field('adrmBlob', fh.read(56))
+                fh.seek(4, os.SEEK_CUR)  # absolute position 0x28d
+                self._set_field('checksum', fh.read(20))
+            # if we can't figure out what to do with this atom, just skip it and move on
             else:
                 fh.seek(atom_size, os.SEEK_CUR)
             # check if we have reached the end of this branch:
@@ -982,11 +992,19 @@ class Ogg(TinyTag):
                 continue
             if '=' in keyvalpair:
                 key, value = keyvalpair.split('=', 1)
-                if DEBUG:
-                    stderr('Found Vorbis Comment', key, value[:64])
-                fieldname = comment_type_to_attr_mapping.get(key.lower())
-                if fieldname:
-                    self._set_field(fieldname, value)
+                key_lowercase = key.lower()
+
+                if key_lowercase == "metadata_block_picture" and self._load_image:
+                    if DEBUG:
+                        stderr('Found Vorbis Image', key, value[:64])
+                    self._image_data = Flac._parse_image(
+                        BytesIO(base64.b64decode(value)))
+                else:
+                    if DEBUG:
+                        stderr('Found Vorbis Comment', key, value[:64])
+                    fieldname = comment_type_to_attr_mapping.get(key_lowercase)
+                    if fieldname:
+                        self._set_field(fieldname, value)
 
     def _parse_pages(self, fh):
         # for the spec, see: https://wiki.xiph.org/Ogg
@@ -1049,6 +1067,8 @@ class Wave(TinyTag):
         chunk_header = fh.read(8)
         while len(chunk_header) == 8:
             subchunkid, subchunksize = struct.unpack('4sI', chunk_header)
+            # IFF chunks are padded to an even number of bytes
+            subchunksize += subchunksize % 2
             if subchunkid == b'fmt ':
                 _, self.channels, self.samplerate = struct.unpack(
                     'HHI', fh.read(8))
@@ -1075,6 +1095,7 @@ class Wave(TinyTag):
                     field = sub_fh.read(4)
                     while len(field) == 4:
                         data_length = struct.unpack('I', sub_fh.read(4))[0]
+                        data_length += data_length % 2  # IFF chunks are padded to an even size
                         data = sub_fh.read(data_length).split(
                             b'\x00', 1)[0]  # strip zero-byte
                         fieldname = self.riff_mapping.get(field)
@@ -1082,8 +1103,6 @@ class Wave(TinyTag):
                             self._set_field(
                                 fieldname, codecs.decode(data, 'utf-8'))
                         field = sub_fh.read(4)
-                        if field[0:1] == b'\x00':  # sometimes an additional zero-byte is present
-                            field = field[1:] + sub_fh.read(1)
             elif subchunkid in (b'id3 ', b'ID3 ') and self._parse_tags:
                 id3 = ID3(fh, 0)
                 id3._parse_id3v2(fh)
@@ -1169,14 +1188,7 @@ class Flac(TinyTag):
                 oggtag._parse_vorbis_comment(fh)
                 self.update(oggtag)
             elif block_type == Flac.METADATA_PICTURE and self._load_image:
-                # https://xiph.org/flac/format.html#metadata_block_picture
-                pic_type, mime_len = struct.unpack('>2I', fh.read(8))
-                fh.read(mime_len)
-                description_len = struct.unpack('>I', fh.read(4))[0]
-                fh.read(description_len)
-                width, height, depth, colors, pic_len = struct.unpack(
-                    '>5I', fh.read(20))
-                self._image_data = fh.read(pic_len)
+                self._image_data = self._parse_image(fh)
             elif block_type >= 127:
                 return  # invalid block type
             else:
@@ -1187,6 +1199,17 @@ class Flac(TinyTag):
             if is_last_block:
                 return
             header_data = fh.read(4)
+
+    @staticmethod
+    def _parse_image(fh):
+        # https://xiph.org/flac/format.html#metadata_block_picture
+        pic_type, mime_len = struct.unpack('>2I', fh.read(8))
+        fh.read(mime_len)
+        description_len = struct.unpack('>I', fh.read(4))[0]
+        fh.read(description_len)
+        width, height, depth, colors, pic_len = struct.unpack(
+            '>5I', fh.read(20))
+        return fh.read(pic_len)
 
 
 class Wma(TinyTag):

@@ -1,83 +1,66 @@
+from ._version import __version__
+import argparse
 import sys
-import configargparse
 
 
-ARGUMENTS = [
-    (
-        ('--domain', '-d',),
-        {
-            "dest": 'domain',
-            "type": str,
-            "action": 'store',
-            "help": 'Base URL (e.g., example.net)',
-            "default": '',
-        }
-    ),
-    (
-        ('--root', '-r',),
-        {
-            "dest": 'root',
-            "type": str,
-            "action": 'store',
-            "help": 'The directory structor of your website before the podcast (path/to/your/books): ',
-            "default": '',
-        }
-    ),
-    (
-        ('--title', '-t',),
-        {
-            "dest": 'title',
-            "type": str,
-            "action": 'store',
-            "help": 'The name of your feed',
-            "default": '',
-        }
-    ),
-    (
-        ('--extension', '-e',),
-        {
-            "dest": 'extensions',
-            "action": 'store',
-            "nargs": '*',
-            "type": str,
-            "help": 'The format(s) of your audio files',
-            "default": 'mp3',
-        }
-    ),
-    (
-        ('--output', '-o',),
-        {
-            "dest": 'outputFile',
-            "action": 'store',
-            "type": str,
-            "help": 'Name of rss file to be created',
-            "default": 'feed.xml',
-        }
-    ),
-    (
-        ('--input', '-i',),
-        {
-            "dest": 'input',
-            "action": 'store',
-            "type": str,
-            "default": None,
-            "help": 'relative path to file containing a list of files',
-        }
-    ),
-    (
-        ('--audible-cli-data',),
-        {
-            "dest": 'audible_cli_data',
-            "action": 'store',
-            "help": 'filename of library export from mkb79/audible-cli',
-            "default": '',
-        },
-    ),
-]
 
-cmdline = configargparse.ArgumentParser()
+parser = argparse.ArgumentParser(description='You Need a Mint (YNAM)')
+add = parser.add_argument
 
-for argument_commands, argument_options in ARGUMENTS:
-    cmdline.add_argument(*argument_commands, **argument_options)
+add('--domain', '-d',
+    action='store',
+    dest='domain',
+    help='Base URL (e.g., example.net)',
+    type=str,
+    default='')
+add('--root', '-r',
+    action='store',
+    dest='root',
+    help='The directory structor of your website before the podcast '
+    '(path/to/files/) ',
+    type=str,
+    default='')
+add('--title', '-t',
+    action='store',
+    dest='title',
+    help='The name of your feed',
+    type=str,
+    default='')
+add('--extension', '-e',
+    action='store',
+    dest='extensions',
+    help='The format(s) of your audio files',
+    type=str,
+    nargs='*',
+    default='mp3')
+add('--output', '-o',
+    action='store',
+    dest='outputFile',
+    help='Name of rss file to be created',
+    type=str,
+    default='feed.xml')
+add('--input', '-i',
+    action='store',
+    dest='input',
+    help='relative path to file containing a list of files (one per line)',
+    type=str,
+    default=None)
+add('--audible-cli-data',
+    action='store',
+    dest='audible_cli_data',
+    help='filename of library export from mkb79/audible-cli',
+    type=str,
+    default='')
+add('--something',
+    action='store',
+    dest='ynab_api_key',
+    help='Literal string api key',
+    type=str,
+    default=None)
+add('--verbose', action='store_true', help='Enables console output')
+add('--version',
+    '-v',
+    action='version',
+    version='snowskeleton/rsrssb ' + __version__)
 
-args, _ = cmdline.parse_known_args(sys.argv[1:])
+args, _ = parser.parse_known_args(sys.argv[1:])
