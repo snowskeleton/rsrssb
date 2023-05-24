@@ -43,13 +43,13 @@ class Episode():
 
 
 def _choose_description(tags: TinyTag) -> str:
-    if tags.description is not None:
-        des = tags.description
+    if 'description' in tags.extra.keys():
+        des = tags.extra['description']
         des = des.encode('raw_unicode_escape')
         des = des.decode('unicode_escape')
         return des
-    elif 'description' in tags.extra.keys():
-        des = tags.extra['description']
+    elif tags.description is not None:
+        des = tags.description
         des = des.encode('raw_unicode_escape')
         des = des.decode('unicode_escape')
         return des
