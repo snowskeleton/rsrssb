@@ -19,12 +19,15 @@ class Episode():
 
     def __post_init__(self) -> None:
         tags = TinyTag.get(self.filename, encoding='MP4')
-        self.title = _clean_title(tags.title)
+        if tags.title is not None:
+            self.title = _clean_title(tags.title)
+        else:
+            self.title = self.filename
         self.description = _choose_description(tags)
 
         # we want stable dates run-to-run, so we hash their title
         seed = _uniquifier(self.title)
-        date = _puff_date(int(tags.year), seed)
+        date = _puff_date(tags.year, seed)
         self.pubDate = format_datetime(date)
 
         if os.path.exists(self.filename):
@@ -61,7 +64,11 @@ def _clean_title(title: str) -> str:
     return title.replace(' (Unabridged)', '')
 
 
-def _puff_date(year: int, seed: int) -> datetime:
+def _puff_date(year: int | None, seed: int) -> datetime:
+    if year is not None:
+        year = int(year)
+    else:
+        year = 2020
     month = (seed % 11) + 1  # one-indexed
     day = (seed % 27) + 1  # one-indexed
     hour = (seed % 23)  # zero-indexed
