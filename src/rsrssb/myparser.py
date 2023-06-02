@@ -13,6 +13,10 @@ add('--domain', '-d',
     help='Base URL (e.g., example.net)',
     type=str,
     default='')
+add('--date-from-timestamp',
+    action='store_true',
+    dest='date_from_timestamp',
+    help='Use file timestamp instead of metadata timestamp')
 add('--root', '-r',
     action='store',
     dest='root',

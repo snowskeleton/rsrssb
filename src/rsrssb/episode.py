@@ -2,10 +2,12 @@ from dataclasses import dataclass, field
 from email.utils import format_datetime
 from hashlib import sha256
 import os
+import pathlib
 from datetime import datetime
 from .tinytag import TinyTag
 from typing import List
 
+from .myparser import args
 
 @dataclass
 class Episode():
@@ -25,9 +27,12 @@ class Episode():
             self.title = self.filename
         self.description = _choose_description(tags)
 
-        # we want stable dates run-to-run, so we hash their title
-        seed = _uniquifier(self.title)
-        date = _puff_date(tags.year, seed)
+        if args.date_from_timestamp:
+            timestamp = pathlib.Path(self.filename).stat().st_mtime
+            date = datetime.fromtimestamp(timestamp)
+        else:
+            seed = _uniquifier(self.title)
+            date = _puff_date(tags.year, seed)
         self.pubDate = format_datetime(date)
 
         if os.path.exists(self.filename):
