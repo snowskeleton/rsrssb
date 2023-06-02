@@ -40,4 +40,4 @@ def derivedFiles() -> list:
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(cli_main())
