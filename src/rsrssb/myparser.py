@@ -51,12 +51,6 @@ add('--audible-cli-data',
     help='filename of library export from mkb79/audible-cli',
     type=str,
     default='')
-add('--something',
-    action='store',
-    dest='ynab_api_key',
-    help='Literal string api key',
-    type=str,
-    default=None)
 add('--verbose', action='store_true', help='Enables console output')
 add('--version',
     '-v',
