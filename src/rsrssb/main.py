@@ -6,7 +6,7 @@ from .myparser import args
 from .xmlwriter import doTheXML
 
 
-def main():
+def cli_main():
     title, domain = args.title, args.domain
     feed = Feed(title, domain)
     files = episodesFrom(derivedFiles())
@@ -14,6 +14,13 @@ def main():
         textfeed = doTheXML(feed, files)
         output.write(textfeed)
 
+
+def other_main(title, domain, file_location, feed_file):
+    feed = Feed(title, domain)
+    files = episodesFrom(files)
+    with open(feed_file, 'w+') as output:
+        textfeed = doTheXML(feed, files)
+        output.write(textfeed)
 
 def derivedFiles() -> list:
     if args.input is not None:
