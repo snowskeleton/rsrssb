@@ -3,6 +3,6 @@ import sys
 from src.rsrssb import main
 
 try:
-    sys.exit(main.cli_main())
+    sys.exit(main.main())
 except KeyboardInterrupt:
     sys.exit(print('\nAbort mission.'))

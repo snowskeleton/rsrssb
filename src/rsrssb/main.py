@@ -6,7 +6,7 @@ from .myparser import args
 from .xmlwriter import doTheXML
 
 
-def cli_main():
+def main():
     title, domain = args.title, args.domain
     feed = Feed(title, domain)
     files = episodesFrom(derivedFiles())
@@ -40,4 +40,4 @@ def derivedFiles() -> list:
 
 
 if __name__ == '__main__':
-    sys.exit(cli_main())
+    sys.exit(main())
