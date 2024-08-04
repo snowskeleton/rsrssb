@@ -1,10 +1,14 @@
+from typing import List
+
 from xml.dom import minidom
-import urllib.parse
 from urllib.parse import quote
 from datetime import datetime
 
+from .feed import Feed
+from .episode import Episode
 
-def doTheXML(feed, files):
+
+def doTheXML(feed: Feed, files: List[Episode]):
     root = minidom.Document()
 
     # start creating the tree
@@ -59,6 +63,7 @@ def doTheXML(feed, files):
         title = root.createElement('title')
         link = root.createElement('link')
         description = root.createElement('description')
+        itsubtitle = root.createElement('itunes:subtitle')
         pubDate = root.createElement('pubDate')
         enclosure = root.createElement('enclosure')
         enclosure.setAttribute('url', f'{feed.link}/{quote(_item.filename)}')
@@ -68,9 +73,10 @@ def doTheXML(feed, files):
         smush(title, f'{_item.title}')
         smush(link, f'{feed.link}/{_item.filename}')
         smush(description, f'{_item.description}')
+        smush(itsubtitle, f'{_item.author}')
         smush(pubDate, f'{_item.pubDate}')
 
-        for tag in [title, link, description, pubDate, enclosure]:
+        for tag in [title, link, description, itsubtitle, pubDate, enclosure]:
             smear(item, tag)
             items.append(item)
 

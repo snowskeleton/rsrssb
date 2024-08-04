@@ -13,6 +13,7 @@ from .myparser import args
 class Episode():
     filename: str
     description: str = field(init=False)
+    author: str = field(init=False)
     title: str = field(init=False)
     bytes: str = field(init=False)
     pubDate: str = field(init=False)
@@ -26,6 +27,13 @@ class Episode():
         else:
             self.title = self.filename
         self.description = _choose_description(tags)
+
+        if tags.artist is not None:
+            self.author = tags.artist
+        elif tags.albumartist is not None:
+            self.author = tags.albumartist
+        else:
+            self.author = ""
 
         if args.date_from_timestamp:
             timestamp = pathlib.Path(self.filename).stat().st_mtime
