@@ -59,18 +59,13 @@ class Episode():
 
 
 def _choose_description(tags: TinyTag) -> str:
-    if 'description' in tags.extra.keys():
-        des = tags.extra['description']
-        des = des.encode('raw_unicode_escape')
-        des = des.decode('unicode_escape')
-        return des
-    elif tags.description is not None:
-        des = tags.description
+    if 'description' in tags.other.keys():
+        des = tags.other['description'][0]  # other values are lists
         des = des.encode('raw_unicode_escape')
         des = des.decode('unicode_escape')
         return des
     else:
-        return tags.comment
+        return tags.comment or ""
 
 
 def _clean_title(title: str) -> str:
